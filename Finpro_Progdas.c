@@ -22,48 +22,48 @@ hutan inputData (int count) {
     hutan h;
     float temp;
 
-    printf("Masukkan luas tanah hutan (meter) pada tahun ini : ");
+    printf("Masukkan luas tanah hutan (meter) pada tahun ini: ");
     scanf("%f", &h.luasTanah);
     while (h.luasTanah < 0) { //fail safe
         printf("Input tidak valid!\nLuas harus lebih dari 0!\n\n");
-        printf("Masukkan luas tanah hutan (meter) pada tahun ini : ");
+        printf("Masukkan luas tanah hutan (meter) pada tahun ini: ");
         scanf("%f", &h.luasTanah);
     }
 
-    printf("Masukkan jumlah cacing tanah dalam satu kubik tanah : ");
+    printf("Masukkan jumlah cacing tanah dalam satu kubik tanah hutan: ");
     scanf("%i", &h.banyakCacing);
     while (h.banyakCacing < 0) { //fail safe
         printf("Input tidak valid!\nJumlah cacing harus sama atau lebih dari 0!\n\n");
-        printf("Masukkan jumlah cacing tanah dalam satu kubik tanah : ");
+        printf("Masukkan jumlah cacing tanah dalam satu kubik tanah: ");
         scanf("%f", &h.banyakCacing);
     }
 
-    printf("Masukkan luas tanah hutan yang tertutup oleh weeds (meter) seperti dandelions, crab grass, dll : ");
+    printf("Masukkan luas tanah hutan yang tertutup oleh weeds (meter) seperti dandelions, crab grass, dll: ");
     scanf("%f", &h.luasTanahWeeds);
     while (h.luasTanahWeeds < 0 || h.luasTanahWeeds > h.luasTanah) { //fail safe
         if (h.luasTanahWeeds < 0) {
             printf("Input tidak valid!\nLuas harus lebih dari 0!\n\n");
         } else {
-            printf("Input tidak valid!\nLuas tanah yang tertutup oleh weeds harus lebih kecil dibanding dengan luas tanah hutan!\n\n");
+            printf("Input tidak valid!\nLuas tanah yang tertutup oleh weeds harus lebih kecil dibandingkan dengan luas tanah hutan!\n\n");
         }
 
-        printf("Masukkan luas tanah hutan yang tertutup oleh weeds (meter) seperti dandelions, crab grass, dll : ");
+        printf("Masukkan luas tanah hutan yang tertutup oleh weeds (meter) seperti dandelions, crab grass, dll: ");
         scanf("%f", &h.luasTanahWeeds);
     }
 
-    printf("Masukkan pH tanah hutan pada saati ini : ");
+    printf("Masukkan pH tanah hutan pada saati ini: ");
     scanf("%f", &h.phTanah);
     while (h.phTanah < 0 || h.phTanah > 9) { //fail safe
         printf("Input tidak valid!\npH tanah harus diantara 0 sampai 9!\n\n");
-        printf("Masukkan pH tanah hutan pada saat ini : ");
+        printf("Masukkan pH tanah hutan pada saat ini: ");
         scanf("%f", &h.phTanah);
     }
 
-    printf("Masukkan jumlah spesies yang tinggal dalam hutan ini : ");
+    printf("Masukkan jumlah spesies yang tinggal dalam hutan ini: ");
     scanf("%i", &h.jumlahSpesies);
     while (h.jumlahSpesies < 0) { //fail safe
         printf("Input tidak valid!\nJumlah spesies yang tinggal dalam hutan ini harus sama atau lebih dari 0!\n\n");
-        printf("Masukkan jumlah spesies yang tinggal dalam hutan ini : ");
+        printf("Masukkan jumlah spesies yang tinggal dalam hutan ini: ");
         scanf("%f", &h.jumlahSpesies);
     }
 
@@ -99,7 +99,7 @@ void riwayat (int tahunAwal, hutan tahunSekarang) {
     printf("\n ===== Tahun %i =====\n", tahunAwal);
 
     printf("Luas tanah hutan: %f Meter\n", tahunSekarang.luasTanah);
-    printf("Banyak cacing tanah dalam satu meter kubik: %i ekor\n", tahunSekarang.banyakCacing);
+    printf("Banyak cacing tanah dalam satu meter kubik tanah hutan: %i ekor\n", tahunSekarang.banyakCacing);
     printf("Luas tanah hutan yang tertutup oleh weeds: %f Meter\n", tahunSekarang.luasTanahWeeds);
     printf("Tingkat pH tanah hutan: %f\n", tahunSekarang.phTanah);
     printf("Jumlah spesies yang ada dalam hutan ini: %i\n", tahunSekarang.jumlahSpesies);
@@ -170,7 +170,52 @@ void riwayat (int tahunAwal, hutan tahunSekarang) {
     }
 }
 
-void analisisPerubahan (/*masukin variabel yg dibutuhin*/) {}
+void analisisPerubahan (int tahunAwal, int count, hutan tahunSekarang, hutan tahunSebelum) {
+    if (count == 0) {
+        printf("\nBelum ada perubahan yang bisa dilihat\n");
+    } else {
+        printf("\n ===== Analisis Perubahan Dari Tahun %i - %i =====\n", tahunAwal - 1, tahunAwal);
+        if (tahunSekarang.luasTanah > tahunSebelum.luasTanah) {
+            printf("Luas tanah hutan sekarang semakin besar dibandingkan dengan tahun sebelumnya (%f Meter --> %f Meter)\n", tahunSebelum.luasTanah, tahunSekarang.luasTanah);
+        } else if (tahunSekarang.luasTanah = tahunSebelum.luasTanah) {
+            printf("Luas tanah hutan sekarang tidak berubah dibandingkan dengan tahun sebelumnya (%f Meter)\n", tahunSekarang.luasTanah);
+        } else {
+            printf("Luas tanah hutan sekarang semakin kecil dibandingkan dengan tahun sebelumnya (%f Meter --> %f Meter)\n", tahunSebelum.luasTanah, tahunSekarang.luasTanah);
+        }
+
+        if (tahunSekarang.banyakCacing > tahunSebelum.banyakCacing) {
+            printf("Jumlah cacing tanah dalam satu meter kubik tanah hutan semakin banyak dibandingkan dengan tahun sebelumnya (%i ekor --> %i ekor)\n", tahunSebelum.banyakCacing, tahunSekarang.banyakCacing);
+        } else if (tahunSekarang.banyakCacing = tahunSebelum.banyakCacing) {
+            printf("Jumlah cacing tanah dalam satu meter kubik tanah hutan tidak berubah dibandingkan dengan tahun sebelumnya(%f ekor)\n", tahunSekarang.banyakCacing);
+        } else {
+            printf("Jumlah cacing tanah dalam satu meter kubik tanah hutan semakin sedikit dibandingkan dengan tahun sebelumnya (%i ekor --> %i ekor)\n", tahunSebelum.banyakCacing, tahunSekarang.banyakCacing);
+        }
+
+        if (tahunSekarang.luasTanahWeeds > tahunSebelum.luasTanahWeeds) {
+            printf("Luas tanah hutan yang tertutup weeds sekarang semakin besar dibandingkan dengan tahun sebelumnya (%f Meter --> %f Meter)\n", tahunSebelum.luasTanahWeeds, tahunSekarang.luasTanahWeeds);
+        } else if (tahunSekarang.luasTanahWeeds = tahunSebelum.luasTanahWeeds) {
+            printf("Luas tanah hutan yang tertutup weeds sekarang tidak berubah dibandingkan dengan tahun sebelumnya (%f Meter)\n", tahunSekarang.luasTanahWeeds);
+        } else {
+            printf("Luas tanah hutan yang tertutup weeds sekarang semakin kecil dibandingkan dengan tahun sebelumnya (%f Meter --> %f Meter)\n", tahunSebelum.luasTanahWeeds, tahunSekarang.luasTanahWeeds);
+        }
+
+        if (tahunSekarang.phTanah > tahunSebelum.phTanah) {
+            printf("Tingkat pH tanah semakin basa dibandingkan dengan tahun sebelumnya (%f --> %f)\n", tahunSebelum.phTanah, tahunSekarang.phTanah);
+        } else if (tahunSekarang.phTanah == tahunSebelum.phTanah) {
+            printf("Tingkat pH tanah tidak berubah dibandingkan dengan tahun sebelumnya (%f)\n", tahunSekarang.phTanah);
+        } else {
+            printf("Tingkat pH tanah semakin asam dibandingkan dengan tahun sebelumnya (%f --> %f)\n", tahunSebelum.phTanah, tahunSekarang.phTanah);
+        }
+
+        if (tahunSekarang.jumlahSpesies > tahunSebelum.jumlahSpesies) {
+            printf("Jumlah spesies yang hidup dalam hutan ini semakin banyak dibandingkan dengan tahun sebelumnya (%i spesies --> %i spesies)", tahunSebelum.jumlahSpesies, tahunSekarang.jumlahSpesies);
+        } else if (tahunSekarang.jumlahSpesies == tahunSebelum.jumlahSpesies) {
+            printf("Jumlah spesies yang hidup dalam hutan ini tidak berubah dibandingkan dengan tahun sebelumnya (%i spesies)", tahunSekarang.jumlahSpesies);
+        } else {
+            printf("Jumlah spesies yang hidup dalam hutan ini semakin sedikit dibandingkan dengan tahun sebelumnya (%i spesies --> %i spesies)", tahunSebelum.jumlahSpesies, tahunSekarang.jumlahSpesies);
+        }
+    }
+}
 
 int menu () {
     int n;
@@ -201,11 +246,11 @@ int main() {
     }
 
     printf("\n ===== Data Kesehatan Hutan =====\n");
-    printf("Tahun berapa sekarang? : ");
+    printf("Tahun berapa sekarang?: ");
     scanf("%i", &tahunAwal);
     while (tahunAwal < 0) { //fail safe
         printf("Input tidak valid!\nTahun harus lebih dari 0 (hanya menggunakan tahun setelah masehi)!\n");
-        printf("Tahun berapa sekarang? : ");
+        printf("Tahun berapa sekarang?: ");
         scanf("%i", &tahunAwal);
     }
 
@@ -230,10 +275,10 @@ int main() {
             }
         } else if (pilihan == 2) {
             for (int i = 0; i < count; i++) {
-                riwayat(tahunAwal, tahun[i]);
+                riwayat(tahunAwal + i, tahun[i]);
             }
         } else if (pilihan == 3) {
-            //tampilin analisis
+            analisisPerubahan(tahunAwal + count, count, tahun[count], tahun[count - 1]);
         } else if (pilihan == 0) {
             printf("Terima kasih sudah menggunakan program ini!\n");
         } else {
@@ -241,7 +286,13 @@ int main() {
         }
     } while (pilihan != 0);
 
-    //tampilin riwayat + hasil analisis akhir (kalo sempet pake histogram)
+    if (count > 0) {
+        printf("\nRiwayat Akhir:\n");
+
+        for (int i = 0; i < count; i++) {
+            riwayat(tahunAwal + i, tahun[i]);
+        }
+    }
 
     return 0;
 }
