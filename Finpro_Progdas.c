@@ -8,6 +8,27 @@ typedef struct {
     int jumlahSpesies;
 } hutan;
 
+hutan inputData (int count) {
+    hutan h;
+
+    printf("Masukkan luas tanah hutan pada tahun ini : ");
+    scanf("%f", h.luasTanah);
+
+    printf("Masukkan jumlah cacing tanah dalam satu kubik tanah : ");
+    scanf("%i", h.banyakCacing);
+
+    printf("Masukkan luas tanah hutan yang tertutup oleh weeds (dandelions, crab grass, dll) : ");
+    scanf("%f", h.luasTanahWeeds);
+
+    printf("Masukkan pH tanah hutan pada saati ini : ");
+    scanf("%f", h.phTanah);
+
+    printf("Masukkan jumlah spesies yang tinggal dalam hutan ini : ");
+    scanf("%i", h.jumlahSpesies);
+
+    return h;
+}
+
 void riwayat (/*masukin variabel yg dibutuhin*/) {}
 
 void analisisPerubahan (/*masukin variabel yg dibutuhin*/) {}
@@ -20,33 +41,52 @@ int menu () {
 
 int main() {
     //variabel semua bikin di awal
-    int pilihan, count = 0, max = 5;
+    int pilihan, count = 0, max = 5, tahunAwal;
 
     //bikin array malloc pake tipe data struct yg hutan
-    int *tahun = (hutan *)malloc(max * sizeof(hutan));
+    hutan *tahun = (hutan *)malloc(max * sizeof(hutan));
+
     if (tahun == NULL) {
         printf("Memory Reallocation Failed");
+
         return 1;
     }
+
+    printf(" ===== Data Kesehatan Hutan =====\n");
+    printf("Tahun berapa sekarang? : ");
+    scanf("%i", &tahunAwal);
 
     do { //main loop
         pilihan = menu();
 
+        while (pilihan < 0 && pilihan > 3) { //fail safe
+            printf("Input tidak valid!\nInput angka sesuai dengan pilihan!\n\n");
+            pilihan = menu();
+        }
+
         if (pilihan == 1) {
-            //perbesar array kalo gk cukup
-
             //minta data trs masukin ke array
+            printf(" ===== Data Untuk Tahun %i =====\n", tahunAwal + count);
+            tahun[count] = inputData(count);
 
+            count++;
+
+            if (max == count) {
+                max += 5;
+                tahun = (hutan *)realloc(tahun, max * sizeof(hutan));
+            }
         } else if (pilihan == 2) {
             //tampilin riwayat
         } else if (pilihan == 3) {
             //tampilin analisis
         } else if (pilihan == 0) {
-            //tampilin riwayat + hasil analisis akhir
+            printf("Terima kasih sudah menggunakan program ini!\nBerikut adalah hasil riwayat dan analisis akhir:\n\n");
         } else {
             printf("Input angka sesuai dengan pilihan!\n\n");
         }
     } while (pilihan != 0);
+
+    //tampilin riwayat + hasil analisis akhir (kalo sempet pake histogram)
 
     return 0;
 }
