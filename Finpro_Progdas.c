@@ -13,18 +13,48 @@ hutan inputData (int count) {
 
     printf("Masukkan luas tanah hutan pada tahun ini : ");
     scanf("%f", h.luasTanah);
+    while (h.luasTanah < 0) { //fail safe
+        printf("Input tidak valid!\nLuas harus lebih dari 0!\n\n");
+        printf("Masukkan luas tanah hutan pada tahun ini : ");
+        scanf("%f", h.luasTanah);
+    }
 
     printf("Masukkan jumlah cacing tanah dalam satu kubik tanah : ");
     scanf("%i", h.banyakCacing);
+    while (h.banyakCacing < 0) { //fail safe
+        printf("Input tidak valid!\nJumlah cacing harus sama atau lebih dari 0!\n\n");
+        printf("Masukkan jumlah cacing tanah dalam satu kubik tanah : ");
+        scanf("%f", h.banyakCacing);
+    }
 
     printf("Masukkan luas tanah hutan yang tertutup oleh weeds (dandelions, crab grass, dll) : ");
     scanf("%f", h.luasTanahWeeds);
+    while (h.luasTanahWeeds < 0 || h.luasTanahWeeds > h.luasTanah) { //fail safe
+        if (h.luasTanahWeeds < 0) {
+            printf("Input tidak valid!\nLuas harus lebih dari 0!\n\n");
+        } else {
+            printf("Input tidak valid!\nLuas tahan yang tertutup oleh weeds harus lebih kecil dibanding dengan luas tanah hutan!\n\n");
+        }
+
+        printf("Masukkan luas tanah hutan yang tertutup oleh weeds (dandelions, crab grass, dll) : ");
+        scanf("%f", h.luasTanahWeeds);
+    }
 
     printf("Masukkan pH tanah hutan pada saati ini : ");
     scanf("%f", h.phTanah);
+    while (h.phTanah < 0) { //fail safe
+        printf("Input tidak valid!\npH tanah harus sama atau lebih dari 0!\n\n");
+        printf("Masukkan pH tanah hutan pada saati ini : ");
+        scanf("%f", h.phTanah);
+    }
 
     printf("Masukkan jumlah spesies yang tinggal dalam hutan ini : ");
     scanf("%i", h.jumlahSpesies);
+    while (h.jumlahSpesies < 0) { //fail safe
+        printf("Input tidak valid!\nJumlah spesies yang tinggal dalam hutan ini harus sama atau lebih dari 0!\n\n");
+        printf("Masukkan jumlah spesies yang tinggal dalam hutan ini : ");
+        scanf("%f", h.jumlahSpesies);
+    }
 
     return h;
 }
