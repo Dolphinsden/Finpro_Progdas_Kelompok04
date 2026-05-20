@@ -53,7 +53,7 @@ hutan inputData (int count) {
 
     printf("Masukkan pH tanah hutan pada saati ini : ");
     scanf("%f", &h.phTanah);
-    while (h.phTanah < 0) { //fail safe
+    while (h.phTanah < 0 || h.phTanah > 9) { //fail safe
         printf("Input tidak valid!\npH tanah harus diantara 0 sampai 9!\n\n");
         printf("Masukkan pH tanah hutan pada saat ini : ");
         scanf("%f", &h.phTanah);
@@ -84,9 +84,9 @@ hutan inputData (int count) {
         h.kategoriWeeds = 1;
     }
 
-    if (h.phTanah > 5.0 && h.phTanah < 6.5) {
+    if (h.phTanah >= 5.0 && h.phTanah <= 6.5) {
         h.kategoripH = 1;
-    } else if (h.phTanah > 4.0 && h.phTanah < 5.0 || h.phTanah > 6.5 && h.phTanah < 7.5) {
+    } else if (h.phTanah >= 4.0 && h.phTanah < 5.0 || h.phTanah > 6.5 && h.phTanah <= 7.5) {
         h.kategoripH = 2;
     } else {
         h.kategoripH = 3;
@@ -95,7 +95,80 @@ hutan inputData (int count) {
     return h;
 }
 
-void riwayat (int tahunAwal, hutan tahunSekarang, hutan tahunSebelum) {}
+void riwayat (int tahunAwal, hutan tahunSekarang) {
+    printf("\n ===== Tahun %i =====\n", tahunAwal);
+
+    printf("Luas tanah hutan: %f Meter\n", tahunSekarang.luasTanah);
+    printf("Banyak cacing tanah dalam satu meter kubik: %i ekor\n", tahunSekarang.banyakCacing);
+    printf("Luas tanah hutan yang tertutup oleh weeds: %f Meter\n", tahunSekarang.luasTanahWeeds);
+    printf("Tingkat pH tanah hutan: %f\n", tahunSekarang.phTanah);
+    printf("Jumlah spesies yang ada dalam hutan ini: %i\n", tahunSekarang.jumlahSpesies);
+
+    printf("Kondisi keaktifan biologis tanah: ");
+    switch (tahunSekarang.kategoriCacing) {
+        case 1:
+            printf("Jumlah cacing tanah sedikit, menandakan sedikit keaktifan biologis dalam tanah hutan ini\n");
+            break;
+        
+        case 2:
+            printf("Jumlah cacing tanah normal, menandakan keaktifan biologis dalam tanah hutan ini cukup baik\n");
+            break;
+        
+        case 3:
+            printf("Jumlah cacing tanah banyak, menandakan keaktifan biologis dalma tanah hutan ini sangat baik\n");
+            break;
+        
+        default:
+            printf("Error (cacing)\n");
+            return;
+    }
+
+    printf("Kondisi tanah berdasarkan weeds: ");
+    switch (tahunSekarang.kategoriWeeds) {
+        case 1:
+            printf("Luas tanah hutan yang tertutup oleh weeds sedikit, menandakan hutan yang stabil\n");
+            break;
+        
+        case 2:
+            printf("Luas tanah hutan lumayan banyak yang tertutup oleh weeds, menandakan ada gangguan natural yang terjadi\n");
+            break;
+
+        case 3:
+            printf("Luas tanah hutan banyak yang tertutup oleh weeds, menandakan adanya gangguan kestabilan hutan yang tidak natural\n");
+            break;
+        
+        default:
+            printf("Error (weeds)\n");
+            break;
+    }
+
+    printf("Kondisi tanah berdasarkan tingkat pH: ");
+    switch (tahunSekarang.kategoripH) {
+        case 1:
+            printf("Tingkat pH dalam tanah masuk dalam kategori normal\n");
+            break;
+
+        case 2:
+            if (tahunSekarang.phTanah < 5) {
+                printf("Tingkat pH dalam tanah sedikit terlalu asam\n");
+            } else {
+                printf("Tingkat pH dalam tanah sedikit terlalu basa\n");
+            }
+            break;
+        
+        case 3:
+            if (tahunSekarang.phTanah < 4) {
+                printf("Tingkat pH dalam tanah terlalu asam\n");
+            } else {
+                printf("Tingkat pH dalam tanah terlalu basa\n");
+            }
+            break;
+
+        default:
+            printf("Error (pH)\n");
+            break;
+    }
+}
 
 void analisisPerubahan (/*masukin variabel yg dibutuhin*/) {}
 
@@ -127,7 +200,7 @@ int main() {
         return 1;
     }
 
-    printf(" ===== Data Kesehatan Hutan =====\n");
+    printf("\n ===== Data Kesehatan Hutan =====\n");
     printf("Tahun berapa sekarang? : ");
     scanf("%i", &tahunAwal);
     while (tahunAwal < 0) { //fail safe
@@ -146,7 +219,7 @@ int main() {
 
         if (pilihan == 1) {
             //minta data trs masukin ke array
-            printf(" ===== Data Untuk Tahun %i =====\n", tahunAwal + count);
+            printf("\n ===== Data Untuk Tahun %i =====\n", tahunAwal + count);
             tahun[count] = inputData(count);
 
             count++;
@@ -156,10 +229,8 @@ int main() {
                 tahun = (hutan *)realloc(tahun, max * sizeof(hutan));
             }
         } else if (pilihan == 2) {
-            riwayat(tahunAwal, tahun[0], tahun[0]);
-
             for (int i = 0; i < count; i++) {
-                riwayat(tahunAwal, tahun[i], tahun[i - 1]);
+                riwayat(tahunAwal, tahun[i]);
             }
         } else if (pilihan == 3) {
             //tampilin analisis
