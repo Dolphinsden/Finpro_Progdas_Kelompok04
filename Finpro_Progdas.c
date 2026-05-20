@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
     float luasTanah;
@@ -65,7 +66,16 @@ void analisisPerubahan (/*masukin variabel yg dibutuhin*/) {}
 
 int menu () {
     int n;
-    //list pilihan menu
+    
+    printf("\n ===== Pilihan Menu =====\n");
+    printf("1. Input data\n");
+    printf("2. Tampilkan riwatat per tahun\n");
+    printf("3. Tampilkan analisis tahun sekarang dengan tahun sebelumnya\n");
+    printf("0. Selesaikan program\n");
+
+    printf("Pilihan : ");
+    scanf("%i", &n);
+
     return n;
 }
 
@@ -85,6 +95,11 @@ int main() {
     printf(" ===== Data Kesehatan Hutan =====\n");
     printf("Tahun berapa sekarang? : ");
     scanf("%i", &tahunAwal);
+    while (tahunAwal < 0) { //fail safe
+        printf("Input tidak valid!\nTahun harus lebih dari 0 (hanya menggunakan tahun setelah masehi)!\n");
+        printf("Tahun berapa sekarang? : ");
+        scanf("%i", &tahunAwal);
+    }
 
     do { //main loop
         pilihan = menu();
@@ -110,9 +125,9 @@ int main() {
         } else if (pilihan == 3) {
             //tampilin analisis
         } else if (pilihan == 0) {
-            printf("Terima kasih sudah menggunakan program ini!\nBerikut adalah hasil riwayat dan analisis akhir:\n\n");
+            printf("Terima kasih sudah menggunakan program ini!\n");
         } else {
-            printf("Input angka sesuai dengan pilihan!\n\n");
+            printf("Input angka sesuai dengan pilihan!\n");
         }
     } while (pilihan != 0);
 
